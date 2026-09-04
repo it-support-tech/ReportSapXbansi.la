@@ -59,7 +59,7 @@ export const UploadPage = () => {
   return (
     <div className="mx-auto max-w-4xl px-6 py-10">
       <div className="mb-8 text-center">
-        <h1 className="text-2xl font-bold text-secondary">ສ້າງ Report ຄືນຄ່າພາສີອັດໂນມັດ</h1>
+        <h1 className="text-2xl font-bold text-secondary">ສ້າງ Report </h1>
         <p className="mt-2 text-sm text-slate-500">
           ອັບໂຫຼດໄຟລ໌ Export ຈາກ SAP B1 ແລະ ໄຟລ໌ຈາກ ບັນຊີ.la ລະບົບຈະ Match ຂໍ້ມູນຕາມເລກ Invoice ໃຫ້ອັດໂນມັດ
         </p>
@@ -113,7 +113,7 @@ export const UploadPage = () => {
             isLoading={stage === "uploading" || stage === "processing"}
             onClick={handleSubmit}
           >
-            {stage === "uploading" ? "ກຳລັງອັບໂຫຼດ..." : stage === "processing" ? "ກຳລັງປະມວນຜົນ..." : "ປະມວນຜົນ ແລະ ສ້າງ Report"}
+            {stage === "uploading" ? "ກຳລັງອັບໂຫຼດ..." : stage === "processing" ? "ກຳລັງປະມວນຜົນ..." : "Generate Report"}
           </Button>
           <Button
             variant="ghost"
@@ -122,7 +122,7 @@ export const UploadPage = () => {
             isLoading={isDebugLoading}
             onClick={handleDebugSap}
           >
-            ຂັ້ນຕອນ 1: ກວດສອບຂໍ້ມູນ SAP B1 ຢ່າງດຽວກ່ອນ (ບໍ່ຕ້ອງມີໄຟລ໌ ບັນຊີ.la)
+            ຂັ້ນຕອນການກວດສອບໄຟລ໌ SAP Business One 
           </Button>
         </div>
       </Card>
