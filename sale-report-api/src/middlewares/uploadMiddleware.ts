@@ -3,7 +3,6 @@ import path from "path";
 import os from "os";
 import crypto from "crypto";
 import { Request } from "express";
-import { env } from "../config/env";
 import { AppError } from "../utils/AppError";
 import { ERROR_MESSAGES } from "../constants/errorMessages";
 import { HTTP_STATUS } from "../constants/statusCodes";
@@ -30,7 +29,7 @@ const fileFilter = (_req: Request, file: Express.Multer.File, cb: multer.FileFil
 export const uploadFiles = multer({
   storage,
   fileFilter,
-  limits: { fileSize: env.maxFileSizeMb * 1024 * 1024 },
+  limits: { fileSize: 15 * 1024 * 1024 },
 }).fields([
   { name: "sapFile", maxCount: 1 },
   { name: "banchiFile", maxCount: 1 },

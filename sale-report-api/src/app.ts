@@ -1,13 +1,13 @@
 import express from "express";
 import cors from "cors";
-import { env } from "./config/env";
 import { apiRouter } from "./routes";
 import { errorHandler, notFoundHandler } from "./middlewares/errorHandlerMiddleware";
 import { verifyDbConnection } from "./db/pool";
 
 const app = express();
 
-app.use(cors({ origin: env.corsOrigin }));
+// Local Docker dev origin. Deploying to the VPS: swap for "https://support.ntp-lao.com".
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -34,8 +34,10 @@ const waitForDb = async (): Promise<void> => {
   console.error("[saleReport] Could not connect to PostgreSQL, starting anyway — DB-backed routes will fail");
 };
 
+const PORT = 4000;
+
 waitForDb().then(() => {
-  app.listen(env.port, () => {
-    console.log(`[saleReport] API listening on http://localhost:${env.port} (${env.nodeEnv})`);
+  app.listen(PORT, () => {
+    console.log(`[saleReport] API listening on http://localhost:${PORT}`);
   });
 });
