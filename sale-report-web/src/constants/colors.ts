@@ -1,6 +1,6 @@
 /**
  * Brand colors — kept in sync with tailwind.config.js `theme.extend.colors`
- * and backend/src/config/theme.ts. Use for inline styles / chart colors
+ * and sale-report-api/src/config/theme.ts. Use for inline styles / chart colors
  * where a Tailwind class isn't practical.
  */
 export const COLORS = {

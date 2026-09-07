@@ -10,36 +10,36 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./backend/src/db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./sale-report-api/src/db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U salereport -d salereport"]
       interval: 5s
       timeout: 5s
       retries: 10
 
-  backend:
-    build: ./backend
+  api:
+    build: ./sale-report-api
     restart: unless-stopped
     ports:
       - "4000:4000"
     volumes:
-      - ./backend/src:/app/src
+      - ./sale-report-api/src:/app/src
     depends_on:
       postgres:
         condition: service_healthy
 
-  frontend:
-    build: ./frontend
+  web:
+    build: ./sale-report-web
     restart: unless-stopped
     environment:
-      VITE_API_PROXY_TARGET: http://backend:4000
+      VITE_API_PROXY_TARGET: http://api:4000
     ports:
       - "5173:5173"
     volumes:
-      - ./frontend/src:/app/src
-      - ./frontend/index.html:/app/index.html
+      - ./sale-report-web/src:/app/src
+      - ./sale-report-web/index.html:/app/index.html
     depends_on:
-      - backend
+      - api
 
 volumes:
   pgdata:

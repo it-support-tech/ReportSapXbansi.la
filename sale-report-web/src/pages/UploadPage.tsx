@@ -59,16 +59,16 @@ export const UploadPage = () => {
   return (
     <div className="mx-auto max-w-4xl px-6 py-10">
       <div className="mb-8 text-center">
-        <h1 className="text-2xl font-bold text-secondary">ສ້າງ Report </h1>
+        <h1 className="text-2xl font-bold text-secondary"> Sap Business One X Bansi.la </h1>
         <p className="mt-2 text-sm text-slate-500">
-          ອັບໂຫຼດໄຟລ໌ Export ຈາກ SAP B1 ແລະ ໄຟລ໌ຈາກ ບັນຊີ.la ລະບົບຈະ Match ຂໍ້ມູນຕາມເລກ Invoice ໃຫ້ອັດໂນມັດ
+          ອັບໂຫຼດໄຟລ໌ Export ຈາກ SAP Business One ແລະ ໄຟລ໌ຈາກ ບັນຊີ.la ລະບົບຈະ Match ຂໍ້ມູນຕາມເລກ Invoice 
         </p>
       </div>
 
       <Card>
         <div className="grid gap-6 sm:grid-cols-2">
           <FileUploader
-            label="1. ໄຟລ໌ Export ຈາກ SAP B1"
+            label="1. ໄຟລ໌ Export ຈາກ SAP Business One"
             description="ໄຟລ໌ Excel Export ລາຍການຂາຍທີ່ມີ Column Invoice Number"
             file={sap.file}
             error={sap.error}
@@ -78,7 +78,7 @@ export const UploadPage = () => {
           />
           <FileUploader
             label="2. ໄຟລ໌ ດຶງຈາກ ບັນຊີ.la"
-            description="ໄຟລ໌ Excel ໃບກຳກັບພາສີ / Tax Invoice ຈາກ ບັນຊີ.la"
+            description="ໄຟລ໌ Excel Tax Invoice ຈາກ ບັນຊີ.la"
             file={banchi.file}
             error={banchi.error}
             onFilesSelected={banchi.handleFiles}

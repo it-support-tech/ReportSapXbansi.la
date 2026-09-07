@@ -23,7 +23,7 @@ export interface DebugColumn {
   align?: "left" | "center" | "right";
 }
 
-/** SAP-only debug view — one row per SapB1Row field, in the same order as backend/src/constants/excelMap.ts. */
+/** SAP-only debug view — one row per SapB1Row field, in the same order as sale-report-api/src/constants/excelMap.ts. */
 export const SAP_DEBUG_COLUMNS: DebugColumn[] = [
   { key: "invoiceNumber", header: "AR Invoice No" },
   { key: "customerName", header: "ຊື່ລູກຄ້າ" },
@@ -37,10 +37,12 @@ export const SAP_DEBUG_COLUMNS: DebugColumn[] = [
   { key: "soDate", header: "ວັນທີ່ອອກເອກະສານ (SO)", align: "center" },
   { key: "customerPo", header: "PO ລູກຄ້າ" },
   { key: "quantityLiters", header: "ຈຳນວນລີດ", align: "right" },
-  { key: "govPriceDate", header: "ໂຄງສ້າງລັດຖະບານ: ວັນທີ", align: "center" },
-  { key: "govPriceRefNumber", header: "ໂຄງສ້າງລັດຖະບານ: ເລກທີ" },
-  { key: "govVatAllowance", header: "ອມພ ມອບຕື່ມ", align: "right" },
-  { key: "govStructuredPrice", header: "ລາຄາໂຄງສ້າງ", align: "right" },
   { key: "discount", header: "ສ່ວນຫຼຸດ", align: "right" },
+  { key: "grossPriceAfterDisc", header: "ລາຄາຂາຍຕົວຈິງ (ລວມ ອມພ)", align: "right" },
+  { key: "priceExclVat", header: "ລາຄາບໍ່ລວມ ອມພ", align: "right" },
+  { key: "amountExclVat", header: "ຈໍານວນເງິນ ບໍ່ລວມ ອມພ", align: "right" },
+  { key: "vatAmount10Pct", header: "ອມພ 10%", align: "right" },
   { key: "grandTotalInclVat", header: "ຍອດລວມທັງໝົດ", align: "right" },
+  { key: "totalAmountUsd", header: "Total Amount (USD)", align: "right" },
+  { key: "totalAmountThb", header: "Total Amount (THB)", align: "right" },
 ];

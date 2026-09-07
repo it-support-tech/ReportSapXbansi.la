@@ -1,5 +1,5 @@
 /**
- * Company brand colors, shared with frontend/src/constants/colors.ts.
+ * Company brand colors, shared with sale-report-web/src/constants/colors.ts.
  * exceljs uses ARGB hex (no rgb()/# prefix) for fills & fonts.
  */
 export const THEME = {

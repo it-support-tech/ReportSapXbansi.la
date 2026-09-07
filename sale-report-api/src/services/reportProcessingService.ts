@@ -10,7 +10,17 @@ import { HTTP_STATUS } from "../constants/statusCodes";
 import { BanchiLaRow, SapB1Row } from "../types/excel.types";
 import { ProcessReportResult, UploadedFilesPayload } from "../types/report.types";
 
-export const SAP_NUMERIC_FIELDS = ["quantityLiters", "govVatAllowance", "govStructuredPrice", "discount", "grandTotalInclVat"];
+export const SAP_NUMERIC_FIELDS = [
+  "quantityLiters",
+  "discount",
+  "grossPriceAfterDisc",
+  "priceExclVat",
+  "amountExclVat",
+  "vatAmount10Pct",
+  "grandTotalInclVat",
+  "totalAmountUsd",
+  "totalAmountThb",
+];
 export const BANCHI_NUMERIC_FIELDS: string[] = [];
 
 const safeUnlink = async (path: string): Promise<void> => {

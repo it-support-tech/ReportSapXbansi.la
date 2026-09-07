@@ -15,12 +15,14 @@ export interface SapB1Row {
   soDate: string | null;
   customerPo: string | null;
   quantityLiters: number | null;
-  govPriceDate: string | null;
-  govPriceRefNumber: string | null;
-  govVatAllowance: number | null;
-  govStructuredPrice: number | null;
   discount: number | null;
+  grossPriceAfterDisc: number | null;
+  priceExclVat: number | null;
+  amountExclVat: number | null;
+  vatAmount10Pct: number | null;
   grandTotalInclVat: number | null;
+  totalAmountUsd: number | null;
+  totalAmountThb: number | null;
   [extra: string]: string | number | null;
 }
 

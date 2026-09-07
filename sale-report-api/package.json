@@ -1,5 +1,5 @@
 {
-  "name": "saleReport-backend",
+  "name": "sale-report-api",
   "version": "1.0.0",
   "description": "Automated Excel Report Generator - Backend API (SAP B1 x ບັນຊີ.la merge & report)",
   "main": "dist/app.js",
