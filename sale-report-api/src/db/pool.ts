@@ -1,7 +1,12 @@
 import { Pool } from "pg";
-import { env } from "../config/env";
 
-export const pool = new Pool({ connectionString: env.databaseUrl });
+export const pool = new Pool({
+  host: "localhost", 
+  port: 5432,
+  user: "ntp2026",
+  password: "admin@123#",
+  database: "reportSale",
+});
 
 /** Fails fast with a clear log line if Postgres isn't reachable at boot, instead of a cryptic error on first request. */
 export const verifyDbConnection = async (): Promise<void> => {
