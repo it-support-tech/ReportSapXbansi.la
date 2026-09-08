@@ -1,9 +1,20 @@
+import path from "path";
 import ExcelJS from "exceljs";
 import { REPORT_COLUMNS } from "../constants/reportColumns";
 import { THEME } from "../config/theme";
 import { MergedRow } from "../types/excel.types";
 
 const REPORT_FONT = "Phetsarath OT";
+
+const LOGO_PATH = path.join(__dirname, "..", "assets", "logo.png");
+
+const COMPANY_INFO = {
+  name: "NTP TRADING PETROLEUM CO., LTD.",
+  address: "Donglouang Village, Naxay Thong District, Vientiane Capital Laos P.D.R",
+  tel: "Tel. : 030-5888885",
+  taxId: "TAX ID : 200510584900",
+  email: "ntp@gmail.com",
+};
 
 const applyHeaderStyle = (cell: ExcelJS.Cell): void => {
   cell.font = { name: REPORT_FONT, size: 11, bold: true, color: { argb: THEME.white.argb } };
@@ -41,7 +52,7 @@ const applyBodyCellStyle = (cell: ExcelJS.Cell, align: "left" | "center" | "righ
  */
 export const generateReportWorkbook = async (
   rows: MergedRow[],
-  reportTitle = "ລາຍງານປະຈຳງວດ (Sales Tax Reconciliation Report)"
+  reportTitle = "ສະຫຼຸບບິນຂາຍນໍ້າມັນໃສ"
 ): Promise<ExcelJS.Workbook> => {
   const workbook = new ExcelJS.Workbook();
   workbook.creator = "saleReport Automated Report Generator";
@@ -56,29 +67,60 @@ export const generateReportWorkbook = async (
       fitToHeight: 0,
       margins: { left: 0.3, right: 0.3, top: 0.5, bottom: 0.4, header: 0.2, footer: 0.2 },
     },
-    views: [{ state: "frozen", xSplit: 1, ySplit: 4, showGridLines: false }],
+    views: [{ state: "frozen", xSplit: 1, ySplit: 9, showGridLines: false }],
   });
 
   const colCount = REPORT_COLUMNS.length;
 
-  sheet.mergeCells(1, 1, 1, colCount);
-  const titleCell = sheet.getCell(1, 1);
+  // Letterhead: logo spans columns A-B across rows 1-5; company info fills
+  // the rest of row width beside it, one line per row.
+  const LETTERHEAD_ROWS = 5;
+  const LOGO_COLUMN_SPAN = 2;
+
+  const imageId = workbook.addImage({ filename: LOGO_PATH, extension: "png" });
+  sheet.addImage(imageId, {
+    tl: { col: 0, row: 0 },
+    ext: { width: 100, height: 98 },
+  });
+
+  const letterheadLines: Array<{ text: string; bold?: boolean; size?: number }> = [
+    { text: COMPANY_INFO.name, bold: true, size: 13 },
+    { text: COMPANY_INFO.address },
+    { text: COMPANY_INFO.tel },
+    { text: COMPANY_INFO.taxId },
+    { text: COMPANY_INFO.email },
+  ];
+  letterheadLines.forEach((line, idx) => {
+    const rowNum = idx + 1;
+    sheet.mergeCells(rowNum, LOGO_COLUMN_SPAN + 1, rowNum, colCount);
+    const cell = sheet.getCell(rowNum, LOGO_COLUMN_SPAN + 1);
+    cell.value = line.text;
+    cell.font = { name: "Arial", size: line.size ?? 10, bold: line.bold ?? false, color: { argb: "FF1A1A1A" } };
+    cell.alignment = { vertical: "middle", horizontal: "left" };
+    sheet.getRow(rowNum).height = 16;
+  });
+
+  const titleRow = LETTERHEAD_ROWS + 1;
+  const subtitleRow = LETTERHEAD_ROWS + 2;
+
+  sheet.mergeCells(titleRow, 1, titleRow, colCount);
+  const titleCell = sheet.getCell(titleRow, 1);
   titleCell.value = reportTitle;
   titleCell.font = { name: REPORT_FONT, size: 14, bold: true, color: { argb: THEME.secondary.argb } };
   titleCell.alignment = { vertical: "middle", horizontal: "center" };
-  sheet.getRow(1).height = 26;
+  sheet.getRow(titleRow).height = 26;
 
-  sheet.mergeCells(2, 1, 2, colCount);
-  const subtitleCell = sheet.getCell(2, 1);
-  subtitleCell.value = `ສ້າງເມື່ອ: ${new Date().toLocaleDateString("lo-LA")}   |   ຈຳນວນລາຍການ: ${rows.length}`;
+  sheet.mergeCells(subtitleRow, 1, subtitleRow, colCount);
+  const subtitleCell = sheet.getCell(subtitleRow, 1);
+  subtitleCell.value = `ວັນທີ: ${new Date().toLocaleDateString("lo-LA")}   |   ຈຳນວນລາຍການ: ${rows.length}`;
   subtitleCell.font = { name: REPORT_FONT, size: 10, italic: true, color: { argb: "FF555555" } };
   subtitleCell.alignment = { vertical: "middle", horizontal: "center" };
 
   // Two-row header: columns with the same `group` share one merged label
   // above their own sub-headers (e.g. "ໂຄງສ້າງລັດຖະບານ"); ungrouped columns
   // get a single label vertically merged across both header rows.
-  const groupHeaderRow = 3;
-  const subHeaderRow = 4;
+  const groupHeaderRow = subtitleRow + 1;
+  const subHeaderRow = subtitleRow + 2;
   let col = 1;
   while (col <= colCount) {
     const current = REPORT_COLUMNS[col - 1];
