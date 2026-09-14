@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { downloadReportFile, processReportFiles } from "../services/reportService";
 import { getErrorMessage } from "../utils/getErrorMessage";
 import { ProcessReportResponse, UploadStage } from "../types/report.types";
+import { ReportEndpoints } from "../constants/api";
 
 interface UseReportGenerateResult {
   stage: UploadStage;
@@ -13,7 +14,7 @@ interface UseReportGenerateResult {
   reset: () => void;
 }
 
-export const useReportGenerate = (): UseReportGenerateResult => {
+export const useReportGenerate = (endpoints: ReportEndpoints): UseReportGenerateResult => {
   const [stage, setStage] = useState<UploadStage>("idle");
   const [progress, setProgress] = useState(0);
   const [result, setResult] = useState<ProcessReportResponse | null>(null);
@@ -25,7 +26,7 @@ export const useReportGenerate = (): UseReportGenerateResult => {
     setProgress(0);
 
     try {
-      const response = await processReportFiles(sapFile, banchiFile, (percent) => {
+      const response = await processReportFiles(endpoints, sapFile, banchiFile, (percent) => {
         setProgress(percent);
         if (percent >= 100) setStage("processing");
       });
@@ -35,16 +36,16 @@ export const useReportGenerate = (): UseReportGenerateResult => {
       setErrorMessage(getErrorMessage(error, "ເກີດຂໍ້ຜິດພາດໃນການປະມວນຜົນ, ກະລຸນາລອງໃໝ່ອີກຄັ້ງ"));
       setStage("error");
     }
-  }, []);
+  }, [endpoints]);
 
   const downloadReport = useCallback(async () => {
     if (!result) return;
     try {
-      await downloadReportFile(result.reportId, result.reportFileName);
+      await downloadReportFile(endpoints, result.reportId, result.reportFileName);
     } catch (error) {
       setErrorMessage(getErrorMessage(error, "ດາວໂຫຼດໄຟລ໌ບໍ່ສຳເລັດ"));
     }
-  }, [result]);
+  }, [endpoints, result]);
 
   const reset = useCallback(() => {
     setStage("idle");

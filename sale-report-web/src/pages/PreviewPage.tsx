@@ -3,14 +3,16 @@ import { Card } from "../components/Card";
 import { SummaryStats } from "../components/SummaryStats";
 import { PreviewTable } from "../components/PreviewTable";
 import { ProcessReportResponse } from "../types/report.types";
+import { PreviewColumn } from "../constants/tableHeaders";
 
 interface PreviewPageProps {
   result: ProcessReportResponse;
+  columns: PreviewColumn[];
   onDownload: () => void;
   onStartOver: () => void;
 }
 
-export const PreviewPage = ({ result, onDownload, onStartOver }: PreviewPageProps) => (
+export const PreviewPage = ({ result, columns, onDownload, onStartOver }: PreviewPageProps) => (
   <div className="mx-auto max-w-6xl px-6 py-10">
     <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
       <div>
@@ -40,7 +42,7 @@ export const PreviewPage = ({ result, onDownload, onStartOver }: PreviewPageProp
     </div>
 
     <Card>
-      <PreviewTable rows={result.rows} />
+      <PreviewTable rows={result.rows} columns={columns} />
     </Card>
   </div>
 );

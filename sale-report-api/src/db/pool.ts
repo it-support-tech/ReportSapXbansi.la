@@ -11,6 +11,14 @@ export const pool = new Pool({
   database: "reportSale",
 });
 
+// export const pool = new Pool({
+//   host: "postgres",
+//   port: 5432,
+//   user: "salereport",
+//   password: "salereport",
+//   database: "salereport",
+// });
+
 /** Fails fast with a clear log line if Postgres isn't reachable at boot, instead of a cryptic error on first request. */
 export const verifyDbConnection = async (): Promise<void> => {
   const client = await pool.connect();

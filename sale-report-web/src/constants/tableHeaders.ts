@@ -46,3 +46,38 @@ export const SAP_DEBUG_COLUMNS: DebugColumn[] = [
   { key: "totalAmountUsd", header: "Total Amount (USD)", align: "right" },
   { key: "totalAmountThb", header: "Total Amount (THB)", align: "right" },
 ];
+
+/** Preview-table config for the lubricant (ນ້ຳມັນເຄື່ອງ) module — mirrors LUBRICANT_REPORT_COLUMNS. */
+export const LUBRICANT_PREVIEW_COLUMNS: PreviewColumn[] = [
+  { key: "invoiceNumber", header: "ເລກທີ່ໃບອິນວອຍ", source: "root" },
+  { key: "documentDate", header: "ວັນທີອອກອິນວອຍ", source: "sap", align: "center" },
+  { key: "customerName", header: "ຊື່ລູກຄ້າ", source: "sap" },
+  { key: "productDescription", header: "ລາຍການສິນຄ້າ", source: "sap" },
+  { key: "grandTotalInclVat", header: "ຍອດລວມທັງໝົດ", source: "sap", align: "right" },
+  { key: "taxInvoiceNumber", header: "ເລກທີບິນອາກອນ", source: "banchi" },
+  { key: "matched", header: "ສະຖານະ", source: "root", align: "center" },
+];
+
+/** SAP-only debug view for lubricant, in the same order as lubricantExcelMap.ts. */
+export const LUBRICANT_SAP_DEBUG_COLUMNS: DebugColumn[] = [
+  { key: "invoiceNumber", header: "Invoice No" },
+  { key: "documentDate", header: "Invoice Date", align: "center" },
+  { key: "soNumber", header: "SO No" },
+  { key: "deliveryDocNumber", header: "Delivery Note No" },
+  { key: "customerCode", header: "Customer Code" },
+  { key: "customerName", header: "Customer Name" },
+  { key: "customerTaxId", header: "Tax ID" },
+  { key: "productCode", header: "Product Code" },
+  { key: "productDescription", header: "Description" },
+  { key: "unitPrice", header: "Unit Price", align: "right" },
+  { key: "qty", header: "Qty", align: "right" },
+  { key: "unit", header: "Unit" },
+  { key: "literPerUnit", header: "Liter Per Unit", align: "right" },
+  { key: "totalLiters", header: "Total Liters", align: "right" },
+  { key: "amountExclVat", header: "Amount Excl. VAT (LAK)", align: "right" },
+  { key: "vatAmount", header: "VAT Amount (LAK)", align: "right" },
+  { key: "grandTotalInclVat", header: "Amount Incl. VAT (Grand Total LAK)", align: "right" },
+  { key: "amountThb", header: "Amount (THB)", align: "right" },
+  { key: "amountUsd", header: "Amount (USD)", align: "right" },
+  { key: "docCurrency", header: "Doc Currency" },
+];

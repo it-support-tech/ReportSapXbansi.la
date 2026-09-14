@@ -35,10 +35,11 @@ export interface BanchiLaRow {
   [extra: string]: string | number | null;
 }
 
-export interface MergedRow {
+/** Generic over the SAP row shape so other modules (e.g. lubricant) can reuse the same match/report pipeline. */
+export interface MergedRow<TSap = SapB1Row> {
   invoiceNumber: string;
   matched: boolean;
-  sap: Partial<SapB1Row> | null;
+  sap: Partial<TSap> | null;
   banchi: Partial<BanchiLaRow> | null;
 }
 

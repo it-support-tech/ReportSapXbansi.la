@@ -1,8 +1,9 @@
-import { PREVIEW_TABLE_COLUMNS } from "../constants/tableHeaders";
+import { PreviewColumn } from "../constants/tableHeaders";
 import { MergedRow } from "../types/report.types";
 
 interface PreviewTableProps {
   rows: MergedRow[];
+  columns: PreviewColumn[];
   maxRows?: number;
 }
 
@@ -20,7 +21,7 @@ const getCellValue = (row: MergedRow, key: string, source: "sap" | "banchi" | "r
   return value === null || value === undefined ? "-" : String(value);
 };
 
-export const PreviewTable = ({ rows, maxRows = 50 }: PreviewTableProps) => {
+export const PreviewTable = ({ rows, columns, maxRows = 50 }: PreviewTableProps) => {
   const visibleRows = rows.slice(0, maxRows);
 
   return (
@@ -28,7 +29,7 @@ export const PreviewTable = ({ rows, maxRows = 50 }: PreviewTableProps) => {
       <table className="w-full min-w-[900px] text-left text-sm">
         <thead className="bg-secondary text-white">
           <tr>
-            {PREVIEW_TABLE_COLUMNS.map((col) => (
+            {columns.map((col) => (
               <th
                 key={col.key}
                 className={`px-3 py-2.5 text-xs font-semibold whitespace-nowrap ${ALIGN_CLASSES[col.align ?? "left"]}`}
@@ -41,7 +42,7 @@ export const PreviewTable = ({ rows, maxRows = 50 }: PreviewTableProps) => {
         <tbody>
           {visibleRows.map((row, i) => (
             <tr key={`${row.invoiceNumber}-${i}`} className={`${i % 2 === 1 ? "bg-slate-50" : "bg-white"} border-t border-slate-100`}>
-              {PREVIEW_TABLE_COLUMNS.map((col) => (
+              {columns.map((col) => (
                 <td
                   key={col.key}
                   className={`px-3 py-2 whitespace-nowrap ${ALIGN_CLASSES[col.align ?? "left"]} ${

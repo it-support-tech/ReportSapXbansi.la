@@ -11,11 +11,29 @@ import { PreviewPage } from "./PreviewPage";
 import { debugParseSapFile } from "../services/reportService";
 import { getErrorMessage } from "../utils/getErrorMessage";
 import { SapDebugResponse } from "../types/report.types";
+import { API_ENDPOINTS, ReportEndpoints } from "../constants/api";
+import { DebugColumn, PREVIEW_TABLE_COLUMNS, PreviewColumn, SAP_DEBUG_COLUMNS } from "../constants/tableHeaders";
 
-export const UploadPage = () => {
+interface UploadPageProps {
+  title?: string;
+  subtitle?: string;
+  endpoints?: ReportEndpoints;
+  previewColumns?: PreviewColumn[];
+  debugColumns?: DebugColumn[];
+  debugModalTitle?: string;
+}
+
+export const UploadPage = ({
+  title = "Sap Business One X Bansi.la",
+  subtitle = "ອັບໂຫຼດໄຟລ໌ Export ຈາກ SAP Business One ແລະ ໄຟລ໌ຈາກ ບັນຊີ.la ລະບົບຈະ Match ຂໍ້ມູນຕາມເລກ Invoice",
+  endpoints = API_ENDPOINTS,
+  previewColumns = PREVIEW_TABLE_COLUMNS,
+  debugColumns = SAP_DEBUG_COLUMNS,
+  debugModalTitle = "ຂໍ້ມູນທີ່ດຶງໄດ້ຈາກ SAP B1 (ບໍ່ໄດ້ match ກັບ ບັນຊີ.la)",
+}: UploadPageProps = {}) => {
   const sap = useFileUpload();
   const banchi = useFileUpload();
-  const { stage, progress, result, errorMessage, generateReport, downloadReport, reset } = useReportGenerate();
+  const { stage, progress, result, errorMessage, generateReport, downloadReport, reset } = useReportGenerate(endpoints);
 
   const [sapDebugResult, setSapDebugResult] = useState<SapDebugResponse | null>(null);
   const [sapDebugError, setSapDebugError] = useState<string | null>(null);
@@ -33,7 +51,7 @@ export const UploadPage = () => {
     setIsDebugLoading(true);
     setSapDebugError(null);
     try {
-      const response = await debugParseSapFile(sap.file);
+      const response = await debugParseSapFile(endpoints, sap.file);
       setSapDebugResult(response);
     } catch (error) {
       setSapDebugError(getErrorMessage(error, "ກວດສອບໄຟລ໌ SAP ບໍ່ສຳເລັດ"));
@@ -46,6 +64,7 @@ export const UploadPage = () => {
     return (
       <PreviewPage
         result={result}
+        columns={previewColumns}
         onDownload={downloadReport}
         onStartOver={() => {
           reset();
@@ -59,10 +78,8 @@ export const UploadPage = () => {
   return (
     <div className="mx-auto max-w-4xl px-6 py-10">
       <div className="mb-8 text-center">
-        <h1 className="text-2xl font-bold text-secondary"> Sap Business One X Bansi.la </h1>
-        <p className="mt-2 text-sm text-slate-500">
-          ອັບໂຫຼດໄຟລ໌ Export ຈາກ SAP Business One ແລະ ໄຟລ໌ຈາກ ບັນຊີ.la ລະບົບຈະ Match ຂໍ້ມູນຕາມເລກ Invoice 
-        </p>
+        <h1 className="text-2xl font-bold text-secondary"> {title} </h1>
+        <p className="mt-2 text-sm text-slate-500">{subtitle}</p>
       </div>
 
       <Card>
@@ -127,13 +144,8 @@ export const UploadPage = () => {
         </div>
       </Card>
 
-      <Modal
-        open={sapDebugResult !== null}
-        title="ຂໍ້ມູນທີ່ດຶງໄດ້ຈາກ SAP B1 (ບໍ່ໄດ້ match ກັບ ບັນຊີ.la)"
-        onClose={() => setSapDebugResult(null)}
-        size="xl"
-      >
-        {sapDebugResult && <SapDebugTable result={sapDebugResult} />}
+      <Modal open={sapDebugResult !== null} title={debugModalTitle} onClose={() => setSapDebugResult(null)} size="xl">
+        {sapDebugResult && <SapDebugTable result={sapDebugResult} columns={debugColumns} />}
       </Modal>
     </div>
   );

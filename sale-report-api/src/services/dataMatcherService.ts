@@ -1,4 +1,4 @@
-import { BanchiLaRow, MergedRow, SapB1Row } from "../types/excel.types";
+import { BanchiLaRow, MergedRow } from "../types/excel.types";
 import { MatchSummary } from "../types/report.types";
 
 /**
@@ -15,10 +15,10 @@ import { MatchSummary } from "../types/report.types";
  * whichever row happens to come last in the file — so duplicates are
  * resolved by version, keeping the first-seen row on a tie.
  */
-export const matchInvoices = (
-  sapRows: SapB1Row[],
+export const matchInvoices = <TSap extends { invoiceNumber: string }>(
+  sapRows: TSap[],
   banchiRows: BanchiLaRow[]
-): { rows: MergedRow[]; summary: MatchSummary } => {
+): { rows: MergedRow<TSap>[]; summary: MatchSummary } => {
   const banchiByInvoice = new Map<string, BanchiLaRow>();
   for (const row of banchiRows) {
     const existing = banchiByInvoice.get(row.invoiceNumber);
@@ -28,7 +28,7 @@ export const matchInvoices = (
   }
 
   const matchedBanchiInvoices = new Set<string>();
-  const rows: MergedRow[] = [];
+  const rows: MergedRow<TSap>[] = [];
 
   for (const sap of sapRows) {
     const banchi = banchiByInvoice.get(sap.invoiceNumber) ?? null;

@@ -1,8 +1,9 @@
 import { apiClient } from "./apiClient";
-import { API_ENDPOINTS } from "../constants/api";
+import { ReportEndpoints } from "../constants/api";
 import { ApiResult, ProcessReportResponse, SapDebugResponse } from "../types/report.types";
 
 export const processReportFiles = async (
+  endpoints: ReportEndpoints,
   sapFile: File,
   banchiFile: File,
   onUploadProgress?: (percent: number) => void
@@ -12,7 +13,7 @@ export const processReportFiles = async (
   formData.append("banchiFile", banchiFile);
 
   const { data } = await apiClient.post<ApiResult<ProcessReportResponse>>(
-    API_ENDPOINTS.PROCESS_REPORT,
+    endpoints.PROCESS_REPORT,
     formData,
     {
       headers: { "Content-Type": "multipart/form-data" },
@@ -28,11 +29,11 @@ export const processReportFiles = async (
 };
 
 /** Parses just the SAP B1 file — no ບັນຊີ.la, no matching — to verify SAP extraction in isolation. */
-export const debugParseSapFile = async (sapFile: File): Promise<SapDebugResponse> => {
+export const debugParseSapFile = async (endpoints: ReportEndpoints, sapFile: File): Promise<SapDebugResponse> => {
   const formData = new FormData();
   formData.append("sapFile", sapFile);
 
-  const { data } = await apiClient.post<ApiResult<SapDebugResponse>>(API_ENDPOINTS.DEBUG_PARSE_SAP, formData, {
+  const { data } = await apiClient.post<ApiResult<SapDebugResponse>>(endpoints.DEBUG_PARSE_SAP, formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
 
@@ -40,8 +41,8 @@ export const debugParseSapFile = async (sapFile: File): Promise<SapDebugResponse
   return data.data;
 };
 
-export const downloadReportFile = async (reportId: string, fileName: string): Promise<void> => {
-  const response = await apiClient.get(API_ENDPOINTS.DOWNLOAD_REPORT(reportId), {
+export const downloadReportFile = async (endpoints: ReportEndpoints, reportId: string, fileName: string): Promise<void> => {
+  const response = await apiClient.get(endpoints.DOWNLOAD_REPORT(reportId), {
     responseType: "blob",
   });
 

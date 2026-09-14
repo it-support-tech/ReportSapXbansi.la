@@ -1,4 +1,4 @@
-import { SAP_DEBUG_COLUMNS } from "../constants/tableHeaders";
+import { DebugColumn } from "../constants/tableHeaders";
 import { SapDebugResponse } from "../types/report.types";
 
 const ALIGN_CLASSES: Record<"left" | "center" | "right", string> = {
@@ -9,10 +9,11 @@ const ALIGN_CLASSES: Record<"left" | "center" | "right", string> = {
 
 interface SapDebugTableProps {
   result: SapDebugResponse;
+  columns: DebugColumn[];
   maxRows?: number;
 }
 
-export const SapDebugTable = ({ result, maxRows = 50 }: SapDebugTableProps) => {
+export const SapDebugTable = ({ result, columns, maxRows = 50 }: SapDebugTableProps) => {
   const visibleRows = result.rows.slice(0, maxRows);
 
   return (
@@ -36,7 +37,7 @@ export const SapDebugTable = ({ result, maxRows = 50 }: SapDebugTableProps) => {
           <thead className="sticky top-0 bg-secondary text-white">
             <tr>
               <th className="px-2 py-2 text-center font-semibold">#</th>
-              {SAP_DEBUG_COLUMNS.map((col) => (
+              {columns.map((col) => (
                 <th key={col.key} className={`whitespace-nowrap px-2 py-2 font-semibold ${ALIGN_CLASSES[col.align ?? "left"]}`}>
                   {col.header}
                 </th>
@@ -47,7 +48,7 @@ export const SapDebugTable = ({ result, maxRows = 50 }: SapDebugTableProps) => {
             {visibleRows.map((row, i) => (
               <tr key={i} className={`${i % 2 === 1 ? "bg-slate-50" : "bg-white"} border-t border-slate-100`}>
                 <td className="px-2 py-1.5 text-center text-slate-400">{i + 1}</td>
-                {SAP_DEBUG_COLUMNS.map((col) => {
+                {columns.map((col) => {
                   const value = row[col.key];
                   return (
                     <td
