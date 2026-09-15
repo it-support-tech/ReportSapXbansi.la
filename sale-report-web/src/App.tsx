@@ -6,7 +6,7 @@ import { LUBRICANT_PREVIEW_COLUMNS, LUBRICANT_SAP_DEBUG_COLUMNS } from "./consta
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <div className="min-h-screen bg-slate-50">
         <Navbar />
         <Routes>
