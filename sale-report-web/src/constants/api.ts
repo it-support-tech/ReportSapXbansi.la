@@ -13,3 +13,4 @@ const buildEndpoints = (basePath: string): ReportEndpoints => ({
 
 export const API_ENDPOINTS = buildEndpoints("/reports");
 export const LUBRICANT_API_ENDPOINTS = buildEndpoints("/lubricant");
+export const SUMMARY_INVOICE_API_ENDPOINTS = buildEndpoints("/summary-invoice");

@@ -81,3 +81,28 @@ export const LUBRICANT_SAP_DEBUG_COLUMNS: DebugColumn[] = [
   { key: "amountUsd", header: "Amount (USD)", align: "right" },
   { key: "docCurrency", header: "Doc Currency" },
 ];
+
+/** Preview-table config for the summary-invoice module — mirrors SUMMARY_INVOICE_REPORT_COLUMNS. */
+export const SUMMARY_INVOICE_PREVIEW_COLUMNS: PreviewColumn[] = [
+  { key: "invoiceNumber", header: "Invoice No", source: "root" },
+  { key: "customerName", header: "ລູກຄ້າ (Bill To)", source: "sap" },
+  { key: "invoiceDate", header: "Invoice Date", source: "sap", align: "center" },
+  { key: "shipToAddress", header: "Location", source: "sap" },
+  { key: "qty", header: "QTY", source: "sap", align: "right" },
+  { key: "grossTotalInclVat", header: "Amount", source: "sap", align: "right" },
+  { key: "taxInvoiceNumber", header: "Tax Inv No", source: "banchi" },
+  { key: "matched", header: "ສະຖານະ", source: "root", align: "center" },
+];
+
+/** SAP-only debug view for summary-invoice, in the same order as summaryInvoiceExcelMap.ts. */
+export const SUMMARY_INVOICE_SAP_DEBUG_COLUMNS: DebugColumn[] = [
+  { key: "invoiceNumber", header: "Invoice No" },
+  { key: "invoiceDate", header: "Invoice Date", align: "center" },
+  { key: "deliveryNumber", header: "Delivery No" },
+  { key: "customerName", header: "Bill To" },
+  { key: "customerAddress", header: "Bill To Address" },
+  { key: "shipToAddress", header: "Ship To Address" },
+  { key: "qty", header: "QTY", align: "right" },
+  { key: "unitPrice", header: "Unit Price", align: "right" },
+  { key: "grossTotalInclVat", header: "Gross Total (Incl. VAT)", align: "right" },
+];
