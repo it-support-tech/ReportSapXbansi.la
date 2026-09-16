@@ -6,7 +6,7 @@
   "type": "commonjs",
   "scripts": {
     "dev": "nodemon --watch src --ext ts --exec ts-node src/app.ts",
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json && node -e \"require('fs').cpSync('src/assets', 'dist/assets', { recursive: true })\"",
     "start": "node dist/app.js",
     "lint": "eslint src --ext .ts",
     "typecheck": "tsc --noEmit"
